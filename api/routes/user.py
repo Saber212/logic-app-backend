@@ -10,7 +10,7 @@ router = APIRouter(prefix="/user")
 
 @router.post("/user")
 
-def user(user_data: UserCreate, db : Session = Depends(get_db)):
+def postuser(user_data: UserCreate, db : Session = Depends(get_db)):
 
     try:
         user = User(
@@ -29,11 +29,9 @@ def user(user_data: UserCreate, db : Session = Depends(get_db)):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.get("/", response_model=list[UserOut])
+@router.get("/user", response_model=list[UserOut])
 def getuser(db : Session = Depends(get_db)): 
     
-    query = db.query(user).all()
-    return{
-        "user" : query
-    }
+    users = db.query(User).all()
+    return users
 
